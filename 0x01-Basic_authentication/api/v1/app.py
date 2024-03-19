@@ -26,7 +26,8 @@ elif AUTH_TYPE == "basic_auth":
 
 @app.before_request
 def before_request():
-    """Returns:
+    """
+    Returns:
         _type_: _description_
     """
     if auth is None:
@@ -50,7 +51,8 @@ def not_found(error) -> str:
 
 @app.errorhandler(401)
 def unauthorized(error) -> str:
-    """Returns:
+    """
+    Returns:
         str: _description_
     """
     return jsonify({"error": "Unauthorized"}), 401

@@ -7,7 +7,8 @@ from api.v1.views import app_views
 
 @app_views.route('/unauthorized', methods=['GET'], strict_slashes=False)
 def unauthorized() -> str:
-    """Returns:
+    """
+    Returns:
         str: _description_
     """
     abort(401, description='Unauthorized')
@@ -15,7 +16,8 @@ def unauthorized() -> str:
 
 @app_views.route('/forbidden', methods=['GET'], strict_slashes=False)
 def forbidden() -> str:
-    """Returns:
+    """
+    Returns:
         str: _description_
     """
     abort(403, description='Forbidden')
