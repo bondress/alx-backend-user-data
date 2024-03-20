@@ -26,7 +26,8 @@ elif AUTH_TYPE == "basic_auth":
 
 @app.before_request
 def before_request():
-    """
+    """ Before Request
+
     Returns:
         _type_: _description_
     """
@@ -45,13 +46,14 @@ def before_request():
 
 @app.errorhandler(404)
 def not_found(error) -> str:
-    """ Not found handler"""
+    """ Not found handler
+    """
     return jsonify({"error": "Not found"}), 404
 
 
 @app.errorhandler(401)
 def unauthorized(error) -> str:
-    """
+    """ Unauthorized
     Returns:
         str: _description_
     """
@@ -60,7 +62,8 @@ def unauthorized(error) -> str:
 
 @app.errorhandler(403)
 def forbidden(error) -> str:
-    """ Forbidden handler"""
+    """Forbidden handler
+    """
     return jsonify({"error": "Forbidden"}), 403
 
 
