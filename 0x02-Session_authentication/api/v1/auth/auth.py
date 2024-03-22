@@ -1,42 +1,79 @@
 #!/usr/bin/env python3
-"""This is the Authentication Module
+"""
+This is the Auth Module
 """
 
-from flask import request
+
 from typing import List, TypeVar
+from flask import request
+import os
 
 
 class Auth:
-    """This is the Auth class
+    """ This is the Auth class
     """
 
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
-        """ Require Auth function_
+        """ Require Auth
+
+        Args:
+            path (str): _description_
+            excluded_paths (List[str]): _description_
+
+        Returns:
+                        bool: _description_
         """
-        if not path or not excluded_paths:
+        if path is None:
             return True
-        if path[-1] != '/':
-            path += '/'
-        for p in excluded_paths:
-            if path[:p.find('*')] in p[:p.find('*')]:
+
+        if excluded_paths is None or excluded_paths == []:
+            return True
+
+        if path in excluded_paths:
+            return False
+
+        for excluded_path in excluded_paths:
+            if excluded_path.startswith(path):
                 return False
+            elif path.startswith(excluded_path):
+                return False
+            elif excluded_path[-1] == "*":
+                if path.startswith(excluded_path[:-1]):
+                    return False
+
         return True
 
     def authorization_header(self, request=None) -> str:
-        """Authorization Header function
+        """_summary_
+
+        Args:
+            request (_type_, optional): _description_. Defaults to None.
+
+        Returns:
+                        str: _description_
         """
-        if not request:
+        if request is None:
             return None
-        return request.headers.get('Authorization')
+        header = request.headers.get('Authorization')
+
+        if header is None:
+            return None
+
+        return header
 
     def current_user(self, request=None) -> TypeVar('User'):
-        """ Return None
+        """ Current User
         """
+
         return None
 
     def session_cookie(self, request=None):
-        """ Session Cookie Function
-        Return a cooke value from a request
+        """ Session Cookie
+
+        Args:
+            request (_type_, optional): _description_. Defaults to None.
         """
-        if request:
-            return request.cookies.get(getenv('SESSION_NAME'))
+        if request is None:
+            return None
+        session_name = os.getenv('SESSION_NAME')
+        return request.cookies.get(session_name)
